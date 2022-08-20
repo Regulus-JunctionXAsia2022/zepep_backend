@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework.generics import ListCreateAPIView
+from app.models import Zepep
 
-# Create your views here.
+from app.serializers import ZepepModelSerializer
+
+
+class ZepepListCreateAPIView(ListCreateAPIView):
+    queryset = Zepep.objects.all()
+    serializer_class = ZepepModelSerializer
