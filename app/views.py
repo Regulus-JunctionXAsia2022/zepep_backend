@@ -1,4 +1,5 @@
-from rest_framework.generics import ListCreateAPIView, UpdateAPIView
+from rest_framework.generics import ListCreateAPIView, UpdateAPIView, GenericAPIView
+from rest_framework.mixins import CreateModelMixin
 from rest_framework.views import APIView
 from rest_framework.exceptions import ParseError, PermissionDenied
 from rest_framework.response import Response
@@ -26,12 +27,13 @@ class ZepepListCreateAPIView(ListCreateAPIView):
         return Zepep.objects.filter(id=zepep.id)
 
 
-class ZepepUpdateAPIView(UpdateAPIView):
+class ZepepUpdateAPIView(GenericAPIView
+                         ):
     queryset = Zepep.objects.all()
     serializer_class = ZepepModelSerializer
     lookup_url_kwarg = 'zepep_id'
 
-    def patch(self, request, zepep_id=None):
+    def post(self, request, zepep_id=None):
 
         if not zepep_id:
             raise ParseError('Zepep id is not given')
@@ -50,5 +52,5 @@ class ZepepUpdateAPIView(UpdateAPIView):
         serializer = self.get_serializer(
             instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
+        serializer.save()
         return Response(serializer.data)
