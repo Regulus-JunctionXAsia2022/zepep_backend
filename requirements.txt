@@ -7,6 +7,7 @@
 
 -i https://pypi.org/simple
 asgiref==3.5.2; python_version >= '3.7'
+django-cors-headers==3.13.0
 django==4.1
 djangorestframework==3.13.1
 pytz==2022.2.1
