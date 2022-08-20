@@ -39,11 +39,11 @@ class ZepepUpdateAPIView(GenericAPIView
             raise ParseError('Zepep id is not given')
         try:
             user_id = request.data['user_id']
+            zepep = Zepep.objects.get(id=zepep_id)
         except KeyError:
             raise ParseError('User id is not given')
         except Zepep.DoesNotExist:
             raise ParseError('Zepep with given id does not exists')
-        zepep = Zepep.objects.get(id=zepep_id)
         if zepep.user != user_id:
             raise PermissionDenied(
                 'This user is not allowed to retrieve this zepep')
